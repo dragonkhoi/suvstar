@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/GoogleARCore/Examples/ComputerVision/Scenes/ComputerVision.unity
     guid: 5ef0f7f7f2c7b4285b707265348bbffd
+  - enabled: 0
+    path: Assets/GoogleARCore/Examples/ComputerVision/Scenes/ComputerVisionNoFX.unity
+    guid: a96413fdf82ff0846ac24356dc66b38f
   m_configObjects: {}
