@@ -14,7 +14,7 @@ RenderTexture:
   m_DownscaleFallback: 0
   serializedVersion: 3
   m_Width: 2960
-  m_Height: 1440
+  m_Height: 2960
   m_AntiAliasing: 1
   m_DepthFormat: 2
   m_ColorFormat: 8

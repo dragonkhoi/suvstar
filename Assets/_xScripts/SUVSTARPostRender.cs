@@ -59,8 +59,8 @@ public class SUVSTARPostRender : MonoBehaviour {
     // So, we'll just make a local of the same name.
     var cam = GetComponent<Camera>();
 #endif
-    cam.clearFlags = CameraClearFlags.Depth;
-    cam.backgroundColor = Color.magenta;  // Should be noticeable if the clear flags change.
+        cam.clearFlags = CameraClearFlags.SolidColor; //CameraClearFlags.Depth;
+    cam.backgroundColor = Color.black;  // Should be noticeable if the clear flags change.
     cam.orthographic = true;
     cam.orthographicSize = 0.5f;
     cam.cullingMask = 0;
@@ -98,13 +98,13 @@ public class SUVSTARPostRender : MonoBehaviour {
   void OnRenderObject() {
     if (Camera.current != cam)
         {
-            Debug.Log("not current cam");
+            //Debug.Log("not current cam");
             return;
 
         }
     else
         {
-            Debug.Log("Curcam>: " + Camera.current.name);
+           // Debug.Log("Curcam>: " + Camera.current.name);
         }
         // Cardboard.SDK.UpdateState();
         //var correction = Cardboard.SDK.DistortionCorrection;
@@ -140,12 +140,12 @@ public class SUVSTARPostRender : MonoBehaviour {
     Color[] colors = ComputeMeshColors(kMeshWidth, kMeshHeight, tex, indices, kDistortVertices);
    // Color[] colors = ComputeMeshColors(kMeshHeight, kMeshWidth, tex, indices, kDistortVertices);
     distortionMesh.vertices = vertices;
-        Debug.Log("VERTICES LENGTH: " + vertices.Length);
-        foreach(Vector3 v in vertices)
-        {
-            Debug.Log(v);
+        //Debug.Log("VERTICES LENGTH: " + vertices.Length);
+        //foreach(Vector3 v in vertices)
+        //{
+        //    Debug.Log(v);
 
-        }
+        //}
 
         distortionMesh.uv = tex;
     distortionMesh.colors = colors;
@@ -161,15 +161,15 @@ public class SUVSTARPostRender : MonoBehaviour {
     Rect viewport;
         SUVSTARProfile profile = SUVSTARProfile.Instance;
     profile.GetLeftEyeVisibleTanAngles(lensFrustum);
-    foreach (float f in lensFrustum)
-        {
-            Debug.Log("lens f: " + f);
-        }
+    //foreach (float f in lensFrustum)
+    //    {
+    //        Debug.Log("lens f: " + f);
+    //    }
     profile.GetLeftEyeNoLensTanAngles(noLensFrustum);
-        foreach (float f in noLensFrustum)
-        {
-            Debug.Log("noLensFrustum f: " + f);
-        }
+        //foreach (float f in noLensFrustum)
+        //{
+        //    Debug.Log("noLensFrustum f: " + f);
+        //}
         viewport = profile.GetLeftEyeVisibleScreenRect(noLensFrustum);
     vertices = new Vector3[2 * width * height];
     tex = new Vector2[2 * width * height];

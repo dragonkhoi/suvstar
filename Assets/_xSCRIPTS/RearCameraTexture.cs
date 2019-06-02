@@ -44,7 +44,7 @@ public class RearCameraTexture : MonoBehaviour
         {
             if (!devices[i].isFrontFacing)
             {
-                backCamera = new WebCamTexture(devices[i].name, Screen.width, Screen.height);
+                backCamera = new WebCamTexture(devices[i].name, 4032, 3024);
                 break;
             }
         }
@@ -65,7 +65,7 @@ public class RearCameraTexture : MonoBehaviour
 
     void Update()
     {
-        debugText.text = "Webcams: " + WebCamTexture.devices.Length.ToString();
+        // debugText.text = "Webcams: " + WebCamTexture.devices.Length.ToString();
 
         if (cameraAvailable)
         {
