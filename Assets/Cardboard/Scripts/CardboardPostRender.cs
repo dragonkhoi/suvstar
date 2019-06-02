@@ -31,10 +31,13 @@ public class CardboardPostRender : MonoBehaviour {
   // Convenient accessor to the camera component used through this script.
   public Camera cam { get; private set; }
 
-  // Distortion mesh parameters.
+    public float distortionCenterOffsetX;
+    public float distortionCenterOffsetY;
+    public bool isLeft;
+    // Distortion mesh parameters.
 
-  // Size of one eye's distortion mesh grid.  The whole mesh is two of these grids side by side.
-  private const int kMeshWidth = 40;
+    // Size of one eye's distortion mesh grid.  The whole mesh is two of these grids side by side.
+    private const int kMeshWidth = 40;
   private const int kMeshHeight = 40;
   // Whether to apply distortion in the grid coordinates or in the texture coordinates.
   private const bool kDistortVertices = true;
@@ -74,6 +77,10 @@ public class CardboardPostRender : MonoBehaviour {
     if (!Application.isEditor) {
       ComputeUIMatrix();
     }
+    if (isLeft)
+        {
+            distortionCenterOffsetY *= -1f;
+        }
   }
 
 #if UNITY_EDITOR
@@ -106,7 +113,7 @@ public class CardboardPostRender : MonoBehaviour {
       }
       meshMaterial.mainTexture = stereoScreen;
       meshMaterial.SetPass(0);
-      Graphics.DrawMeshNow(distortionMesh, transform.position, transform.rotation);
+      Graphics.DrawMeshNow(distortionMesh, transform.position + new Vector3(distortionCenterOffsetX, distortionCenterOffsetY, 0f), transform.rotation);
     }
     stereoScreen.DiscardContents();
     if (!Cardboard.SDK.NativeUILayerSupported && Cardboard.SDK.UILayerEnabled) {
@@ -119,8 +126,11 @@ public class CardboardPostRender : MonoBehaviour {
     Vector3[] vertices;
     Vector2[] tex;
     ComputeMeshPoints(kMeshWidth, kMeshHeight, kDistortVertices, out vertices, out tex);
+    //ComputeMeshPoints(kMeshHeight, kMeshWidth, kDistortVertices, out vertices, out tex);
     int[] indices = ComputeMeshIndices(kMeshWidth, kMeshHeight, kDistortVertices);
+    //int[] indices = ComputeMeshIndices(kMeshHeight, kMeshWidth, kDistortVertices);
     Color[] colors = ComputeMeshColors(kMeshWidth, kMeshHeight, tex, indices, kDistortVertices);
+   // Color[] colors = ComputeMeshColors(kMeshHeight, kMeshWidth, tex, indices, kDistortVertices);
     distortionMesh.vertices = vertices;
     distortionMesh.uv = tex;
     distortionMesh.colors = colors;
@@ -140,11 +150,15 @@ public class CardboardPostRender : MonoBehaviour {
     viewport = profile.GetLeftEyeVisibleScreenRect(noLensFrustum);
     vertices = new Vector3[2 * width * height];
     tex = new Vector2[2 * width * height];
-    for (int e = 0, vidx = 0; e < 2; e++) {
+    for (int e = 0, vidx = 0; e < 1; e++) { // e < 2
       for (int j = 0; j < height; j++) {
+      //for (int j = 0; j < width; j++) {
         for (int i = 0; i < width; i++, vidx++) {
+        //for (int i = 0; i < height; i++, vidx++) {
           float u = (float)i / (width - 1);
+         // float u = (float)i / (height - 1);
           float v = (float)j / (height - 1);
+         // float v = (float)j / (width - 1);
           float s, t;  // The texture coordinates in StereoScreen to read from.
           if (distortVertices) {
             // Grid points regularly spaced in StreoScreen, and barrel distorted in the mesh.
@@ -171,9 +185,12 @@ public class CardboardPostRender : MonoBehaviour {
             t = Mathf.Clamp01((y - lensFrustum[3]) / (lensFrustum[1] - lensFrustum[3]));
           }
           // Convert u,v to mesh screen coordinates.
-          float aspect = profile.screen.width / profile.screen.height;
+         float aspect = profile.screen.width / profile.screen.height;
+         // float aspect = profile.screen.height / profile.screen.width;
           u = (viewport.x + u * viewport.width - 0.5f) * aspect;
+         // u = (viewport.x + u * viewport.height - 0.5f) * aspect;
           v = viewport.y + v * viewport.height - 0.5f;
+         // v = viewport.y + v * viewport.width - 0.5f;
           vertices[vidx] = new Vector3(u, v, 1);
           // Adjust s to account for left/right split in StereoScreen.
           s = (s + e) / 2;
