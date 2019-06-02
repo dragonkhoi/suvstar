@@ -72,6 +72,7 @@ public class CardboardProfile {
 
     public float distort(float r) {
       float r2 = r * r;
+            Debug.Log(k1 + " K2: " + k2);
       return ((k2 * r2 + k1) * r2 + 1) * r;
     }
 
@@ -359,13 +360,21 @@ public static readonly Screen EE267ViewMaster = new Screen
     float fovTop = Mathf.Tan(device.maxFOV.upper * Mathf.Deg2Rad);
     float fovRight = Mathf.Tan(device.maxFOV.inner * Mathf.Deg2Rad);
     float fovBottom = Mathf.Tan(-device.maxFOV.lower * Mathf.Deg2Rad);
+        Debug.Log("device max fov o u i l : " + device.maxFOV.outer + " " + device.maxFOV.upper + " " + device.maxFOV.inner + " " + device.maxFOV.lower);
     // Viewport size.
     float halfWidth = screen.width / 4;
-    float halfHeight = screen.height / 2;
-    // Viewport center, measured from left lens position.
-    float centerX = device.lenses.separation / 2 - halfWidth;
+        Debug.Log("screen w : " + screen.width);
+
+        float halfHeight = screen.height / 2;
+        Debug.Log("screen h : " + screen.height);
+
+        // Viewport center, measured from left lens position.
+        float centerX = device.lenses.separation / 2 - halfWidth;
+        Debug.Log("Device lens sep: " + device.lenses.separation);
     float centerY = -VerticalLensOffset;
+        Debug.Log(" vert lens off " + VerticalLensOffset);
     float centerZ = device.lenses.screenDistance;
+        Debug.Log(" scr dist " + device.lenses.screenDistance);
     // Tan-angles of the viewport edges, as seen through the lens.
     float screenLeft = device.distortion.distort((centerX - halfWidth) / centerZ);
     float screenTop = device.distortion.distort((centerY + halfHeight) / centerZ);

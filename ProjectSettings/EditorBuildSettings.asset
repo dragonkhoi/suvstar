@@ -17,7 +17,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/GoogleARCore/Examples/ComputerVision/Scenes/ComputerVisionNoFX.unity
     guid: a96413fdf82ff0846ac24356dc66b38f
-  - enabled: 1
+  - enabled: 0
     path: Assets/_SCENES/cardboard.unity
     guid: fc00fae3ca786c84baa678099ff6ec86
+  - enabled: 1
+    path: Assets/_SCENES/HelloAR_SUVSTAR.unity
+    guid: a221aa50456289445b81c060d69d015c
   m_configObjects: {}

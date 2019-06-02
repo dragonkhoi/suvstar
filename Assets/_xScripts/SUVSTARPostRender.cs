@@ -25,8 +25,7 @@ using UnityEngine;
 /// In the Unity editor, this script also draws the analog of the UI layer on
 /// the phone (alignment marker, settings gear, etc).
 [RequireComponent(typeof(Camera))]
-[AddComponentMenu("Cardboard/CardboardPostRender")]
-public class CardboardPostRender : MonoBehaviour {
+public class SUVSTARPostRender : MonoBehaviour {
 
   // Convenient accessor to the camera component used through this script.
   public Camera cam { get; private set; }
@@ -34,6 +33,7 @@ public class CardboardPostRender : MonoBehaviour {
     public float distortionCenterOffsetX;
     public float distortionCenterOffsetY;
     public bool isLeft;
+    public RenderTexture StereoScreen;
     // Distortion mesh parameters.
 
     // Size of one eye's distortion mesh grid.  The whole mesh is two of these grids side by side.
@@ -43,7 +43,7 @@ public class CardboardPostRender : MonoBehaviour {
   private const bool kDistortVertices = true;
 
   private Mesh distortionMesh;
-  private Material meshMaterial;
+  public Material meshMaterial;
 
   // UI Layer parameters.
   private Material uiMaterial;
@@ -71,7 +71,7 @@ public class CardboardPostRender : MonoBehaviour {
   void Awake() {
     cam = GetComponent<Camera>();
     Reset();
-    meshMaterial = new Material(Shader.Find("Cardboard/UnlitTexture"));
+    // meshMaterial = new Material(Shader.Find("Cardboard/UnlitTexture"));
     uiMaterial = new Material(Shader.Find("Cardboard/SolidColor"));
     uiMaterial.color = new Color(0.8f, 0.8f, 0.8f);
     if (!Application.isEditor) {
@@ -89,7 +89,7 @@ public class CardboardPostRender : MonoBehaviour {
   void OnPreCull() {
     // The Game window's aspect ratio may not match the fake device parameters.
     float realAspect = (float)Screen.width / Screen.height;
-    float fakeAspect = Cardboard.SDK.Profile.screen.width / Cardboard.SDK.Profile.screen.height;
+    float fakeAspect = Screen.width / Screen.height;
     aspectComparison = fakeAspect / realAspect;
     cam.orthographicSize = 0.5f * Mathf.Max(1, aspectComparison);
   }
@@ -97,28 +97,36 @@ public class CardboardPostRender : MonoBehaviour {
 
   void OnRenderObject() {
     if (Camera.current != cam)
-      return;
-    Cardboard.SDK.UpdateState();
-    var correction = Cardboard.SDK.DistortionCorrection;
-    RenderTexture stereoScreen = Cardboard.SDK.StereoScreen;
-    if (stereoScreen == null || correction == Cardboard.DistortionCorrectionMethod.None) {
-      return;
-    }
-    if (correction == Cardboard.DistortionCorrectionMethod.Native
-        && Cardboard.SDK.NativeDistortionCorrectionSupported) {
-      Cardboard.SDK.PostRender();
-    } else {
-      if (distortionMesh == null || Cardboard.SDK.ProfileChanged) {
+        {
+            Debug.Log("not current cam");
+            return;
+
+        }
+    else
+        {
+            Debug.Log("Curcam>: " + Camera.current.name);
+        }
+        // Cardboard.SDK.UpdateState();
+        //var correction = Cardboard.SDK.DistortionCorrection;
+        RenderTexture stereoScreen = StereoScreen; // Cardboard.SDK.StereoScreen;
+    //if (stereoScreen == null || correction == Cardboard.DistortionCorrectionMethod.None) {
+    //  return;
+    //}
+    //if (correction == Cardboard.DistortionCorrectionMethod.Native
+    //    && Cardboard.SDK.NativeDistortionCorrectionSupported) {
+    //  Cardboard.SDK.PostRender();
+    //} else {
+      if (distortionMesh == null) { //|| Cardboard.SDK.ProfileChanged) {
         RebuildDistortionMesh();
       }
       meshMaterial.mainTexture = stereoScreen;
       meshMaterial.SetPass(0);
       Graphics.DrawMeshNow(distortionMesh, transform.position + new Vector3(distortionCenterOffsetX, distortionCenterOffsetY, 0f), transform.rotation);
-    }
+   //  }
     stereoScreen.DiscardContents();
-    if (!Cardboard.SDK.NativeUILayerSupported && Cardboard.SDK.UILayerEnabled) {
-      DrawUILayer();
-    }
+    //if (!Cardboard.SDK.NativeUILayerSupported && Cardboard.SDK.UILayerEnabled) {
+    //  DrawUILayer();
+    //}
   }
 
   private void RebuildDistortionMesh() {
@@ -133,7 +141,7 @@ public class CardboardPostRender : MonoBehaviour {
    // Color[] colors = ComputeMeshColors(kMeshHeight, kMeshWidth, tex, indices, kDistortVertices);
     distortionMesh.vertices = vertices;
         Debug.Log("VERTICES LENGTH: " + vertices.Length);
-        foreach (Vector3 v in vertices)
+        foreach(Vector3 v in vertices)
         {
             Debug.Log(v);
 
@@ -151,13 +159,13 @@ public class CardboardPostRender : MonoBehaviour {
     float[] lensFrustum = new float[4];
     float[] noLensFrustum = new float[4];
     Rect viewport;
-    CardboardProfile profile = Cardboard.SDK.Profile;
+        SUVSTARProfile profile = SUVSTARProfile.Instance;
     profile.GetLeftEyeVisibleTanAngles(lensFrustum);
-        foreach (float f in lensFrustum)
+    foreach (float f in lensFrustum)
         {
             Debug.Log("lens f: " + f);
         }
-        profile.GetLeftEyeNoLensTanAngles(noLensFrustum);
+    profile.GetLeftEyeNoLensTanAngles(noLensFrustum);
         foreach (float f in noLensFrustum)
         {
             Debug.Log("noLensFrustum f: " + f);
@@ -182,7 +190,7 @@ public class CardboardPostRender : MonoBehaviour {
             float x = Mathf.Lerp(lensFrustum[0], lensFrustum[2], u);
             float y = Mathf.Lerp(lensFrustum[3], lensFrustum[1], v);
             float d = Mathf.Sqrt(x * x + y * y);
-            float r = profile.device.distortion.distortInv(d);
+            float r = profile.distortInv(d);
             float p = x * r / d;
             float q = y * r / d;
             u = (p - noLensFrustum[0]) / (noLensFrustum[2] - noLensFrustum[0]);
@@ -193,14 +201,14 @@ public class CardboardPostRender : MonoBehaviour {
             float p = Mathf.Lerp(noLensFrustum[0], noLensFrustum[2], u);
             float q = Mathf.Lerp(noLensFrustum[3], noLensFrustum[1], v);
             float r = Mathf.Sqrt(p * p + q * q);
-            float d = profile.device.distortion.distort(r);
+            float d = profile.distort(r);
             float x = p * d / r;
             float y = q * d / r;
             s = Mathf.Clamp01((x - lensFrustum[0]) / (lensFrustum[2] - lensFrustum[0]));
             t = Mathf.Clamp01((y - lensFrustum[3]) / (lensFrustum[1] - lensFrustum[3]));
           }
           // Convert u,v to mesh screen coordinates.
-         float aspect = profile.screen.width / profile.screen.height;
+         float aspect = Screen.width /Screen.height;
          // float aspect = profile.screen.height / profile.screen.width;
           u = (viewport.x + u * viewport.width - 0.5f) * aspect;
          // u = (viewport.x + u * viewport.height - 0.5f) * aspect;
@@ -280,23 +288,23 @@ public class CardboardPostRender : MonoBehaviour {
     return indices;
   }
 
-  private void DrawUILayer() {
-    bool vrMode = Cardboard.SDK.VRModeEnabled;
-    if (Application.isEditor) {
-      ComputeUIMatrix();
-    }
-    uiMaterial.SetPass(0);
-    if (vrMode && Cardboard.SDK.EnableSettingsButton) {
-      DrawSettingsButton();
-    }
-    if (vrMode && Cardboard.SDK.EnableAlignmentMarker) {
-      DrawAlignmentMarker();
-    }
-    if (Cardboard.SDK.BackButtonMode == Cardboard.BackButtonModes.On
-        || vrMode && Cardboard.SDK.BackButtonMode == Cardboard.BackButtonModes.OnlyInVR) {
-      DrawVRBackButton();
-    }
-  }
+  //private void DrawUILayer() {
+  //  bool vrMode = Cardboard.SDK.VRModeEnabled;
+  //  if (Application.isEditor) {
+  //    ComputeUIMatrix();
+  //  }
+  //  uiMaterial.SetPass(0);
+  //  if (vrMode && Cardboard.SDK.EnableSettingsButton) {
+  //    DrawSettingsButton();
+  //  }
+  //  if (vrMode && Cardboard.SDK.EnableAlignmentMarker) {
+  //    DrawAlignmentMarker();
+  //  }
+  //  if (Cardboard.SDK.BackButtonMode == Cardboard.BackButtonModes.On
+  //      || vrMode && Cardboard.SDK.BackButtonMode == Cardboard.BackButtonModes.OnlyInVR) {
+  //    DrawVRBackButton();
+  //  }
+  //}
 
   // The gear has 6 identical sections, each spanning 60 degrees.
   private const float kAnglePerGearSection = 60;

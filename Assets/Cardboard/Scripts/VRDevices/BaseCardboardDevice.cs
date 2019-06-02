@@ -166,19 +166,45 @@ BaseVRDevice
     CardboardProfile.Device device = new CardboardProfile.Device();
     CardboardProfile.Screen screen = new CardboardProfile.Screen();
     device.maxFOV.outer = profileData[0];
+        Debug.Log("Device Max Fov Outer: "  + profileData[0]);
     device.maxFOV.upper = profileData[1];
-    device.maxFOV.inner = profileData[2];
-    device.maxFOV.lower = profileData[3];
-    screen.width = profileData[4];
-    screen.height = profileData[5];
-    screen.border = profileData[6];
-    device.lenses.separation = profileData[7];
-    device.lenses.offset = profileData[8];
-    device.lenses.screenDistance = profileData[9];
-    device.lenses.alignment = (int)profileData[10];
-    device.distortion.k1 = profileData[11];
-    device.distortion.k2 = profileData[12];
-    device.inverse = CardboardProfile.ApproximateInverse(device.distortion);
+        Debug.Log("Device Max Fov Upper: " + profileData[1]);
+
+        device.maxFOV.inner = profileData[2];
+
+        Debug.Log("Device Max Fov Inner: " + profileData[2]);
+
+        device.maxFOV.lower = profileData[3];
+        Debug.Log("Device Max Fov Lower: " + profileData[3]);
+
+        screen.width = profileData[4];
+        Debug.Log("Screen width: " + profileData[4]);
+
+        screen.height = profileData[5];
+        Debug.Log("Screen height: " + profileData[5]);
+
+        screen.border = profileData[6];
+        Debug.Log("Screen border: " + profileData[6]);
+
+        device.lenses.separation = profileData[7];
+        Debug.Log("Lens separation: " + profileData[7]);
+
+        device.lenses.offset = profileData[8];
+        Debug.Log("Lens offset: " + profileData[8]);
+
+        device.lenses.screenDistance = profileData[9];
+        Debug.Log("Lens screen distance: " + profileData[9]);
+
+        device.lenses.alignment = (int)profileData[10];
+        Debug.Log("Lens alignment: " + profileData[10]);
+
+        device.distortion.k1 = profileData[11];
+        Debug.Log("k1: " + profileData[11]);
+
+        device.distortion.k2 = profileData[12];
+        Debug.Log("k2: " + profileData[12]);
+
+        device.inverse = CardboardProfile.ApproximateInverse(device.distortion);
     Profile.screen = screen;
     Profile.device = device;
   }
