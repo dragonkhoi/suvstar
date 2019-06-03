@@ -37,7 +37,7 @@ public class RearCameraTexture : MonoBehaviour
 #if UNITY_EDITOR
         if (devices.Length > 0)
         {
-            backCamera = new WebCamTexture(devices[0].name, Screen.width, Screen.height);
+            backCamera = new WebCamTexture(devices[0].name, 128, 128);
         }
 #else
         for (int i = 0; i < devices.Length; ++i)

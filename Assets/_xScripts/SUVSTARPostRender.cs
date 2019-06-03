@@ -53,6 +53,8 @@ public class SUVSTARPostRender : MonoBehaviour {
   private float yScale;
   private Matrix4x4 xfm;
 
+    public Transform EyeCamera;
+
   void Reset() {
 #if UNITY_EDITOR
     // Member variable 'cam' not always initialized when this method called in Editor.
@@ -80,6 +82,7 @@ public class SUVSTARPostRender : MonoBehaviour {
     if (isLeft)
         {
             distortionCenterOffsetY *= -1f;
+            EyeCamera.transform.position = new Vector3(EyeCamera.transform.position.x * -1f, EyeCamera.transform.position.y, EyeCamera.transform.position.z);
         }
   }
 

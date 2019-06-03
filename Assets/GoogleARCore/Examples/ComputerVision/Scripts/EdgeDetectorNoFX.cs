@@ -107,7 +107,8 @@ namespace GoogleARCore.Examples.ComputerVision
                     //{
                     //    outputImage[(j * width) + i] = 0x1F;
                     //}
-                    outputImage[(j * width) + i] = s_ImageBuffer[offset];
+                    // outputImage[(j * width) + i] = s_ImageBuffer[offset];
+                    outputImage[(j * width) + i] = s_ImageBuffer[(j * width) + i];
                 }
             }
         }

@@ -226,6 +226,16 @@ namespace GoogleARCore.Examples.ComputerVision
             EdgeDetectionBackgroundImage.enabled = !EdgeDetectionBackgroundImage.enabled;
         }
 
+        public void Yuv2Rgb(int yValue, int uValue, int vValue, out int r, out int g, out int b)
+        {
+            float rTmp = yValue + (1.370705f * (vValue - 128f));
+            float gTmp = yValue - (0.698001f * (vValue - 128f)) - (0.337633f * (uValue - 128f));
+            float bTmp = yValue + (1.732446f * (uValue - 128f));
+            r = (int) Mathf.Clamp(rTmp, 0, 255);
+            g = (int) Mathf.Clamp(gTmp, 0, 255);
+            b = (int) Mathf.Clamp(bTmp, 0, 255);
+        }
+
         /// <summary>
         /// Handles a new CPU image.
         /// </summary>
