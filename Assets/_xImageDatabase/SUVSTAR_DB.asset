@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1208cb4bfc946f7aa1d7b5348cb086, type: 3}
+  m_Name: SUVSTAR_DB
+  m_EditorClassIdentifier: 
+  m_Images:
+  - Name: mona_lisa
+    Width: 0
+    Quality: 60
+    TextureGUID: 81ab9c34fd2b95f449ec47b2f893ef12
+  - Name: spanish
+    Width: 0
+    Quality: 100
+    TextureGUID: 210a53f527bb8e449b740d26e762d623
+  - Name: hayato
+    Width: 0
+    Quality: 80
+    TextureGUID: e5b0a49115a74a84a849f485883f5845
+  - Name: nitish
+    Width: 0
+    Quality: 95
+    TextureGUID: c0e0c45ce1612db4d93c080aae6d60c7
+  - Name: robert
+    Width: 0
+    Quality: 80
+    TextureGUID: daf4c5743b58ed542b3a056f45980742
+  - Name: gordon
+    Width: 0
+    Quality: 100
+    TextureGUID: 3461ab22854e8d9439d0cd8b4865c809
+  - Name: starbucks
+    Width: 0
+    Quality: 100
+    TextureGUID: 301e6ae4923c91b46af2822c93c59999
+  - Name: robertk
+    Width: 0
+    Quality: 100
+    TextureGUID: f0a52a37289dc654186e808f3980c86a
+  m_RawData: 
+  m_IsRawDataDirty: 1
+  m_CliVersion: 1.2
