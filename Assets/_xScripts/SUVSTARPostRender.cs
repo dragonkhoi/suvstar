@@ -32,6 +32,8 @@ public class SUVSTARPostRender : MonoBehaviour {
 
     public float distortionCenterOffsetX;
     public float distortionCenterOffsetY;
+    public float rotationOffsetX;
+    public float rotationOffsetY;
     public bool isLeft;
     public RenderTexture StereoScreen;
     // Distortion mesh parameters.
@@ -52,6 +54,9 @@ public class SUVSTARPostRender : MonoBehaviour {
   private float xScale;
   private float yScale;
   private Matrix4x4 xfm;
+
+    public UnityEngine.UI.Text distXText;
+    public UnityEngine.UI.Text distYText;
 
     public Transform EyeCamera;
 
@@ -124,7 +129,7 @@ public class SUVSTARPostRender : MonoBehaviour {
       }
       meshMaterial.mainTexture = stereoScreen;
       meshMaterial.SetPass(0);
-      Graphics.DrawMeshNow(distortionMesh, transform.position + new Vector3(distortionCenterOffsetX, distortionCenterOffsetY, 0f), transform.rotation);
+        Graphics.DrawMeshNow(distortionMesh, transform.position + new Vector3(distortionCenterOffsetX, distortionCenterOffsetY, 0f) + new Vector3(rotationOffsetX, rotationOffsetY, 0f), transform.rotation); // * Quaternion.Euler(0f,0f,90f));
    //  }
     stereoScreen.DiscardContents();
     //if (!Cardboard.SDK.NativeUILayerSupported && Cardboard.SDK.UILayerEnabled) {
@@ -132,7 +137,40 @@ public class SUVSTARPostRender : MonoBehaviour {
     //}
   }
 
-  private void RebuildDistortionMesh() {
+    void UpdateDistortionXText()
+    {
+        distXText.text = "distX: " + distortionCenterOffsetX.ToString();
+        distYText.text = "distY: " + distortionCenterOffsetY.ToString();
+    }
+
+    public void MoveLeft()
+    {
+        distortionCenterOffsetX -= 0.01f;
+        UpdateDistortionXText();
+    }
+
+    public void MoveRight()
+    {
+        distortionCenterOffsetX += 0.01f;
+        UpdateDistortionXText();
+
+    }
+
+    public void MoveUp()
+    {
+        distortionCenterOffsetY += 0.01f;
+        UpdateDistortionXText();
+
+    }
+
+    public void MoveDown()
+    {
+        distortionCenterOffsetY -= 0.01f;
+        UpdateDistortionXText();
+
+    }
+
+    private void RebuildDistortionMesh() {
     distortionMesh = new Mesh();
     Vector3[] vertices;
     Vector2[] tex;
