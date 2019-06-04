@@ -55,6 +55,9 @@ public class SUVSTARPostRender : MonoBehaviour {
   private float yScale;
   private Matrix4x4 xfm;
 
+    public GameObject TimeQuadL;
+    public GameObject TimeQuadR;
+
     public UnityEngine.UI.Text distXText;
     public UnityEngine.UI.Text distYText;
 
@@ -84,7 +87,10 @@ public class SUVSTARPostRender : MonoBehaviour {
     if (!Application.isEditor) {
       ComputeUIMatrix();
     }
-    if (isLeft)
+        TimeQuadL.SetActive(isLeft);
+        TimeQuadR.SetActive(!isLeft);
+
+        if (isLeft)
         {
             distortionCenterOffsetY *= -1f;
             EyeCamera.transform.position = new Vector3(EyeCamera.transform.position.x * -1f, EyeCamera.transform.position.y, EyeCamera.transform.position.z);

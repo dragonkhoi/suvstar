@@ -20,7 +20,8 @@ public class SetTransform : MonoBehaviour
 
     public void SetZ(float z)
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, ogZ + z);
-        eyeCamZText.text = "Eye Camera Z: " + (ogZ + z).ToString();
+        float newZ = (float)System.Math.Round(ogZ + z, 1);
+        transform.position = new Vector3(transform.position.x, transform.position.y, newZ );
+        eyeCamZText.text = "Eye Camera Z: " + newZ.ToString();
     }
 }
