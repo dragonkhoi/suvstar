@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/_SCENES/WEBCAM_SUVSTAR.unity
     guid: c6a0b740ea0f9d34faab2195f78a9d1c
   - enabled: 1
+    path: Assets/_SCENES/TestImageBytes.unity
+    guid: 0d97493d88952a54e906dc45c80cf08f
+  - enabled: 0
     path: Assets/_SCENES/HelloAR_SUVSTAR.unity
     guid: a221aa50456289445b81c060d69d015c
   m_configObjects: {}

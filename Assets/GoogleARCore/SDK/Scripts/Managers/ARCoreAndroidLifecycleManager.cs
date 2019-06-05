@@ -338,19 +338,24 @@ namespace GoogleARCoreInternal
             if (frameHandle == IntPtr.Zero)
             {
                 // This prevents using a texture that has not been filled out by ARCore.
+                Debug.Log("0000000000000000000000000");
                 return;
             }
             else if (backgroundTextureId == -1)
             {
+                Debug.Log("-1111111111111111111111111111");
                 return;
             }
             else if (BackgroundTexture != null &&
                 BackgroundTexture.GetNativeTexturePtr().ToInt32() == backgroundTextureId)
             {
+                Debug.Log("HIHIHIHIHIHIHIHI");
                 return;
             }
             else if (BackgroundTexture == null)
             {
+                Debug.Log("BYUEBYEBYEBYEBYEBYE");
+
                 // The Unity-cached size and format of the texture (0x0, ARGB) is not the
                 // actual format of the texture. This is okay because the texture is not
                 // accessed by pixels, it is accessed with UV coordinates.
@@ -359,7 +364,8 @@ namespace GoogleARCoreInternal
                 return;
             }
 
-            BackgroundTexture.UpdateExternalTexture(new IntPtr(backgroundTextureId));
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAA");
+            //BackgroundTexture.UpdateExternalTexture(new IntPtr(backgroundTextureId));
         }
 
         private void _SetSessionEnabled(bool sessionEnabled)
