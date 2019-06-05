@@ -160,7 +160,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53448580}
-  m_Text: 4:20pm
+  m_Text: 8:30am
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -918,7 +918,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 378899379}
-  m_Text: 4:20pm
+  m_Text: 8:30am
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -1778,7 +1778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &921963583
 Transform:
   m_ObjectHideFlags: 0
@@ -1786,7 +1786,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921963582}
-  m_LocalRotation: {x: -0, y: 0.42164025, z: -0, w: 0.9067632}
+  m_LocalRotation: {x: 0, y: 0.5, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1794,7 +1794,7 @@ Transform:
   - {fileID: 344602272}
   m_Father: {fileID: 686577308}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 49.876003, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
 --- !u!114 &921963584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1807,6 +1807,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 795fb19823c1ae1418e9e121d144bc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toFollow: {fileID: 211028855}
+  followX: 1
+  followY: 1
+  followZ: 1
 --- !u!1 &964421163
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,7 +2185,7 @@ MonoBehaviour:
   distortionCenterOffsetY: 0.09
   rotationOffsetX: 0
   rotationOffsetY: 0
-  isLeft: 0
+  isLeft: 1
   StereoScreen: {fileID: 8400000, guid: 956be2ac7bbc8c3499660e4a8a3dcd7c, type: 2}
   meshMaterial: {fileID: 2100000, guid: a2c1dbfb150207741840c076fd6541fa, type: 2}
   TimeQuadL: {fileID: 344602271}
