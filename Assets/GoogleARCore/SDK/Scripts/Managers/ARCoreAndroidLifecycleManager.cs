@@ -355,6 +355,8 @@ namespace GoogleARCoreInternal
             else if (BackgroundTexture == null)
             {
                 Debug.Log("BYUEBYEBYEBYEBYEBYE");
+                Debug.Log(backgroundTextureId.ToString());
+                Debug.Log("BYUEBYEBYEBYEBYEBYE");
 
                 // The Unity-cached size and format of the texture (0x0, ARGB) is not the
                 // actual format of the texture. This is okay because the texture is not
