@@ -34,12 +34,13 @@ public class UIContext : MonoBehaviour
 
     public void Expand()
     {
+        StopCoroutine(CollapseUI());
         StartCoroutine(ExpandUI());
     }
 
     IEnumerator ExpandUI()
     {
-        Vector3 currentScale = transform.localScale;
+        Vector3 currentScale = currentBg.localScale;
         int i = 0;
         while (i <= 100f)
         {
@@ -55,7 +56,7 @@ public class UIContext : MonoBehaviour
 
     IEnumerator CollapseUI()
     {
-        Vector3 currentScale = transform.localScale;
+        Vector3 currentScale = currentBg.localScale;
 
         int i = 0;
         while (i <= 100f)
@@ -72,6 +73,7 @@ public class UIContext : MonoBehaviour
 
     public void Collapse()
     {
+        StopCoroutine(ExpandUI());
         StartCoroutine(CollapseUI());
     }
 }
