@@ -30,11 +30,31 @@ public class SUVSTARPostRender : MonoBehaviour {
   // Convenient accessor to the camera component used through this script.
   public Camera cam { get; private set; }
 
+    /// <summary>
+    /// How far to shift the barrel distorted image left and right when the phone is landscape
+    /// </summary>
     public float distortionCenterOffsetX;
+    /// <summary>
+    /// How far to shift the barrel distorted image up and down when the phone is landscape
+    /// </summary>
     public float distortionCenterOffsetY;
-    public float rotationOffsetX;
-    public float rotationOffsetY;
+    /// <summary>
+    /// Not used
+    /// </summary>
+    public float rotationOffsetX; // TO-DO: REMOVE
+    /// <summary>
+    /// Not used
+    /// </summary>
+    public float rotationOffsetY; // TO-DO: REMOVE
+
+    /// <summary>
+    /// True when building to the phone for the left eye; false when building to the phone for the right eye
+    /// </summary>
     public bool isLeft;
+    
+    /// <summary>
+    /// The RenderTexture that holds the reprojected camera feed
+    /// </summary>
     public RenderTexture StereoScreen;
     // Distortion mesh parameters.
 
@@ -55,12 +75,15 @@ public class SUVSTARPostRender : MonoBehaviour {
   private float yScale;
   private Matrix4x4 xfm;
 
+    // The context panel with a schedule; offset for each eye
     public GameObject TimeQuadL;
     public GameObject TimeQuadR;
 
+    // Text that displays the offset on the UI panel at the configuration zone
     public UnityEngine.UI.Text distXText;
     public UnityEngine.UI.Text distYText;
 
+    // The orthographic camera that reprojects the ARCore feed
     public Transform EyeCamera;
 
   void Reset() {
@@ -87,13 +110,14 @@ public class SUVSTARPostRender : MonoBehaviour {
     if (!Application.isEditor) {
       ComputeUIMatrix();
     }
+        // Set the appropriate panel active
         TimeQuadL.SetActive(isLeft);
         TimeQuadR.SetActive(!isLeft);
 
+        // Adjust barrel distortion offsets for the correct eye
         if (isLeft)
         {
             distortionCenterOffsetY *= -1f;
-            EyeCamera.transform.position = new Vector3(EyeCamera.transform.position.x * -1f, EyeCamera.transform.position.y, EyeCamera.transform.position.z);
         }
   }
 
@@ -120,27 +144,17 @@ public class SUVSTARPostRender : MonoBehaviour {
         {
            // Debug.Log("Curcam>: " + Camera.current.name);
         }
-        // Cardboard.SDK.UpdateState();
-        //var correction = Cardboard.SDK.DistortionCorrection;
-        RenderTexture stereoScreen = StereoScreen; // Cardboard.SDK.StereoScreen;
-    //if (stereoScreen == null || correction == Cardboard.DistortionCorrectionMethod.None) {
-    //  return;
-    //}
-    //if (correction == Cardboard.DistortionCorrectionMethod.Native
-    //    && Cardboard.SDK.NativeDistortionCorrectionSupported) {
-    //  Cardboard.SDK.PostRender();
-    //} else {
+
+        RenderTexture stereoScreen = StereoScreen; 
+
       if (distortionMesh == null) { //|| Cardboard.SDK.ProfileChanged) {
         RebuildDistortionMesh();
       }
       meshMaterial.mainTexture = stereoScreen;
       meshMaterial.SetPass(0);
         Graphics.DrawMeshNow(distortionMesh, transform.position + new Vector3(distortionCenterOffsetX, distortionCenterOffsetY, 0f) + new Vector3(rotationOffsetX, rotationOffsetY, 0f), transform.rotation); // * Quaternion.Euler(0f,0f,90f));
-   //  }
     stereoScreen.DiscardContents();
-    //if (!Cardboard.SDK.NativeUILayerSupported && Cardboard.SDK.UILayerEnabled) {
-    //  DrawUILayer();
-    //}
+
   }
 
     void UpdateDistortionXText()
@@ -187,12 +201,6 @@ public class SUVSTARPostRender : MonoBehaviour {
     Color[] colors = ComputeMeshColors(kMeshWidth, kMeshHeight, tex, indices, kDistortVertices);
    // Color[] colors = ComputeMeshColors(kMeshHeight, kMeshWidth, tex, indices, kDistortVertices);
     distortionMesh.vertices = vertices;
-        //Debug.Log("VERTICES LENGTH: " + vertices.Length);
-        //foreach(Vector3 v in vertices)
-        //{
-        //    Debug.Log(v);
-
-        //}
 
         distortionMesh.uv = tex;
     distortionMesh.colors = colors;
@@ -208,27 +216,15 @@ public class SUVSTARPostRender : MonoBehaviour {
     Rect viewport;
         SUVSTARProfile profile = SUVSTARProfile.Instance;
     profile.GetLeftEyeVisibleTanAngles(lensFrustum);
-    //foreach (float f in lensFrustum)
-    //    {
-    //        Debug.Log("lens f: " + f);
-    //    }
     profile.GetLeftEyeNoLensTanAngles(noLensFrustum);
-        //foreach (float f in noLensFrustum)
-        //{
-        //    Debug.Log("noLensFrustum f: " + f);
-        //}
         viewport = profile.GetLeftEyeVisibleScreenRect(noLensFrustum);
     vertices = new Vector3[2 * width * height];
     tex = new Vector2[2 * width * height];
-    for (int e = 0, vidx = 0; e < 1; e++) { // e < 2
+    for (int e = 0, vidx = 0; e < 1; e++) { // In Cardboard, e < 2, but we only need one eye
       for (int j = 0; j < height; j++) {
-      //for (int j = 0; j < width; j++) {
         for (int i = 0; i < width; i++, vidx++) {
-        //for (int i = 0; i < height; i++, vidx++) {
           float u = (float)i / (width - 1);
-         // float u = (float)i / (height - 1);
           float v = (float)j / (height - 1);
-         // float v = (float)j / (width - 1);
           float s, t;  // The texture coordinates in StereoScreen to read from.
           if (distortVertices) {
             // Grid points regularly spaced in StreoScreen, and barrel distorted in the mesh.
@@ -256,11 +252,8 @@ public class SUVSTARPostRender : MonoBehaviour {
           }
           // Convert u,v to mesh screen coordinates.
          float aspect = Screen.width /Screen.height;
-         // float aspect = profile.screen.height / profile.screen.width;
           u = (viewport.x + u * viewport.width - 0.5f) * aspect;
-         // u = (viewport.x + u * viewport.height - 0.5f) * aspect;
           v = viewport.y + v * viewport.height - 0.5f;
-         // v = viewport.y + v * viewport.width - 0.5f;
           vertices[vidx] = new Vector3(u, v, 1);
           // Adjust s to account for left/right split in StereoScreen.
           s = (s + e) / 2;
@@ -335,23 +328,8 @@ public class SUVSTARPostRender : MonoBehaviour {
     return indices;
   }
 
-  //private void DrawUILayer() {
-  //  bool vrMode = Cardboard.SDK.VRModeEnabled;
-  //  if (Application.isEditor) {
-  //    ComputeUIMatrix();
-  //  }
-  //  uiMaterial.SetPass(0);
-  //  if (vrMode && Cardboard.SDK.EnableSettingsButton) {
-  //    DrawSettingsButton();
-  //  }
-  //  if (vrMode && Cardboard.SDK.EnableAlignmentMarker) {
-  //    DrawAlignmentMarker();
-  //  }
-  //  if (Cardboard.SDK.BackButtonMode == Cardboard.BackButtonModes.On
-  //      || vrMode && Cardboard.SDK.BackButtonMode == Cardboard.BackButtonModes.OnlyInVR) {
-  //    DrawVRBackButton();
-  //  }
-  //}
+
+    // BELOW IS USELESS FROM CARDBOARD SDK, TAKE IT OUT?
 
   // The gear has 6 identical sections, each spanning 60 degrees.
   private const float kAnglePerGearSection = 60;

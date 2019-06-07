@@ -2016,7 +2016,7 @@ GameObject:
   - component: {fileID: 1110804207}
   - component: {fileID: 1110804205}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: PostRenderCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2267,7 +2267,7 @@ GameObject:
   - component: {fileID: 1238658223}
   - component: {fileID: 1238658222}
   m_Layer: 8
-  m_Name: Quad
+  m_Name: ARCoreCameraFeedDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
