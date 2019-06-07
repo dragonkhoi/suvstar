@@ -5,28 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/_SCENES/Jank.unity
-    guid: df43cae37265b9a4581c43d69efb5d76
-  - enabled: 0
-    path: Assets/_SCENES/main.unity
-    guid: 4b5bd431ced4d4fdc98666ac2dd9a3e4
-  - enabled: 0
-    path: Assets/GoogleARCore/Examples/ComputerVision/Scenes/ComputerVision.unity
-    guid: 5ef0f7f7f2c7b4285b707265348bbffd
-  - enabled: 0
-    path: Assets/_SCENES/ComputerVisionNoFX.unity
-    guid: a96413fdf82ff0846ac24356dc66b38f
-  - enabled: 0
-    path: Assets/_SCENES/cardboard.unity
-    guid: fc00fae3ca786c84baa678099ff6ec86
-  - enabled: 0
-    path: Assets/_SCENES/WEBCAM_SUVSTAR.unity
-    guid: c6a0b740ea0f9d34faab2195f78a9d1c
   - enabled: 1
-    path: Assets/_SCENES/HelloAR_SUVSTAR.unity
+    path: Assets/_SCENES/SUVSTAR_MAIN.unity
     guid: a221aa50456289445b81c060d69d015c
-  - enabled: 0
-    path: Assets/_SCENES/passthru screencap.unity
-    guid: 1131b77b500874d4ba2ef9613f67ed7f
   m_configObjects: {}
