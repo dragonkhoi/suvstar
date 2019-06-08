@@ -50,8 +50,9 @@ public class RaycastUI : MonoBehaviour
                 currentTimer += Time.deltaTime;
                 if (currentTimer > dampTime)
                 {
-                    StopCoroutine(RotatePivotPoint());
-                    StartCoroutine(RotatePivotPoint());
+                    // This wasn't working due to strange axes misalignments on the phones
+                    //StopCoroutine(RotatePivotPoint());
+                    //StartCoroutine(RotatePivotPoint());
                     currentTimer = 0;
                 }
             }
