@@ -57,6 +57,18 @@ public class SUVSTARPostRender : MonoBehaviour
     /// The RenderTexture that holds the reprojected camera feed
     /// </summary>
     public RenderTexture StereoScreen;
+
+    /// <summary>
+    /// Camera that will render a second eye if necessary.
+    /// </summary>
+    public GameObject RightEyeCamera;
+
+    /// <summary>
+    /// If running monoscopic pass-through on one device
+    /// and want to render two eyes.
+    /// </summary>
+    public bool TwoEyesSingleDevice;
+
     // Distortion mesh parameters.
 
     // Size of one eye's distortion mesh grid.  The whole mesh is two of these grids side by side.
@@ -86,6 +98,11 @@ public class SUVSTARPostRender : MonoBehaviour
 
     // The orthographic camera that reprojects the ARCore feed
     public Transform EyeCamera;
+
+    /// <summary>
+    /// Control panel UI that lets you adjust values at runtime.
+    /// </summary>
+    public GameObject ControlPanelUI;
 
     void Reset()
     {
@@ -118,6 +135,14 @@ public class SUVSTARPostRender : MonoBehaviour
         if (isLeft)
         {
             distortionCenterOffsetY *= -1f;
+        }
+        if (TwoEyesSingleDevice)
+        {
+            RightEyeCamera.SetActive(true);
+            RightEyeCamera.GetComponent<Camera>().enabled = true;
+            distortionCenterOffsetX = 0f;
+            distortionCenterOffsetY = 0f;
+            ControlPanelUI.SetActive(false);
         }
     }
 
@@ -198,7 +223,7 @@ public class SUVSTARPostRender : MonoBehaviour
         distortionMesh = new Mesh();
         Vector3[] vertices;
         Vector2[] tex;
-        ComputeMeshPoints(kMeshWidth, kMeshHeight, kDistortVertices, out vertices, out tex);
+        ComputeMeshPoints(kMeshWidth, kMeshHeight, kDistortVertices, out vertices, out tex, TwoEyesSingleDevice ? 2 : 1);
         //ComputeMeshPoints(kMeshHeight, kMeshWidth, kDistortVertices, out vertices, out tex);
         int[] indices = ComputeMeshIndices(kMeshWidth, kMeshHeight, kDistortVertices);
         //int[] indices = ComputeMeshIndices(kMeshHeight, kMeshWidth, kDistortVertices);
@@ -214,7 +239,7 @@ public class SUVSTARPostRender : MonoBehaviour
     }
 
     private static void ComputeMeshPoints(int width, int height, bool distortVertices,
-                                          out Vector3[] vertices, out Vector2[] tex)
+                                          out Vector3[] vertices, out Vector2[] tex, int eyeCount = 1)
     {
         float[] lensFrustum = new float[4];
         float[] noLensFrustum = new float[4];
@@ -225,7 +250,7 @@ public class SUVSTARPostRender : MonoBehaviour
         viewport = profile.GetLeftEyeVisibleScreenRect(noLensFrustum);
         vertices = new Vector3[2 * width * height];
         tex = new Vector2[2 * width * height];
-        for (int e = 0, vidx = 0; e < 1; e++)
+        for (int e = 0, vidx = 0; e < eyeCount; e++)
         { // In Cardboard, e < 2, but we only need one eye
             for (int j = 0; j < height; j++)
             {
