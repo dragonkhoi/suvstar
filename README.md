@@ -20,7 +20,7 @@ Using third-party libraries and software from:
 - Unity 2019.1.4f1 (https://unity3d.com/get-unity/download/archive)
 - Using code based off of: EE267 adaptation of Google Cardboard SDK v0.6 (https://drive.google.com/file/d/1JiZHSX6oHcyx4dcg-cLvgg-PgsBha0qi/view)
 # Runs on:
-TwoSamsung Galaxy S9 phones running Android 9.0 (Pie) (the code is hard-coded to run for this phone’s aspect ratios)
+TwoSamsung Galaxy S9 phones running Android 9.0 (Pie) (the code is hard-coded to run for this phone’s aspect ratios). If you would like to use other phones, please adjust the RenderTextures (CameraFeed and StereoScreen) resolutions to match those of your devices. 
 # To use:
 - Open scene: SUVSTAR_MAIN
 - Click on Cameras→ PostRenderCamera and check “isLeft” on the SUVSTARPostRender component
