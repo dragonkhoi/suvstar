@@ -1,12 +1,17 @@
 # SUVSTAR
 Stereoscopic Untethered Video See-Through Augmented Reality
+
 Stanford EE 267
+
 Khoi Le & Kyle Qian
 
 # SUVSTAR - README
 Last updated: June 2019 by Khoi Le and Kyle Qian
+
 Repo: https://github.com/dragonkhoi/suvstar/
+
 Video: https://www.youtube.com/watch?v=aOOyccH9_Rw
+
 # Description
 Stereoscopic Untethered Video See-Through Augmented Reality (SUVSTAR) was developed as the final project for EE267 - Virtual Reality at Stanford University with Dr. Gordon Wetzstein. It uses two separate ARCore-enabled devices for each eye to enable standalone outdoor, anchored augmented reality. It was created as a proof-of-concept to showcase use cases for AR HMDs of the future that users wear at all times, in any lighting, and without being tethered to a separate computation hub.
 #Dependencies
@@ -53,4 +58,4 @@ Modeled after the AugmentedImageController.cs in the Google ARCore Augmented Ima
 Script attached to the First Person Camera (the main AR camera) to trigger the expansion of the HUD when gazed at.
 
 # IF YOU ARE TRYING TO RUN MONOSCOPIC PASS-THROUGH AR ON A SINGLE PHONE:
-In SUVSTARPostRender, set e < 2 instead of e < 1. This will render stereo to both eyes. You will want to disable the UI canvas so it doesn't get in the way.
+In SUVSTARPostRender, check the bool box that says "TwoEyesSingleDevice" to set it to true. This will increase the eyeCount to 2, set the right eye camera to active, and deactivate the canvas UI. 
