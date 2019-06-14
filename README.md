@@ -3,9 +3,6 @@ Stereoscopic Untethered Video See-Through Augmented Reality
 
 Stanford EE 267
 
-Khoi Le & Kyle Qian
-
-# SUVSTAR - README
 Last updated: June 2019 by Khoi Le and Kyle Qian
 
 Repo: https://github.com/dragonkhoi/suvstar/
