@@ -16,14 +16,14 @@ Video: https://www.youtube.com/watch?v=aOOyccH9_Rw
 
 # Description
 Stereoscopic Untethered Video See-Through Augmented Reality (SUVSTAR) was developed as the final project for EE267 - Virtual Reality at Stanford University with Dr. Gordon Wetzstein. It uses two separate ARCore-enabled devices for each eye to enable standalone outdoor, anchored augmented reality. It was created as a proof-of-concept to showcase use cases for AR HMDs of the future that users wear at all times, in any lighting, and without being tethered to a separate computation hub.
-#Dependencies
+## Dependencies
 Using third-party libraries and software from:
 - ARCore 1.9.0 (https://github.com/google-ar/arcore-android-sdk/releases)
 - Unity 2019.1.4f1 (https://unity3d.com/get-unity/download/archive)
 - Using code based off of: EE267 adaptation of Google Cardboard SDK v0.6 (https://drive.google.com/file/d/1JiZHSX6oHcyx4dcg-cLvgg-PgsBha0qi/view)
-# Runs on:
+## Runs on:
 TwoSamsung Galaxy S9 phones running Android 9.0 (Pie) (the code is hard-coded to run for this phone’s aspect ratios). If you would like to use other phones, please adjust the RenderTextures (CameraFeed and StereoScreen) resolutions to match those of your devices. 
-# To use:
+## To use:
 - Open scene: SUVSTAR_MAIN
 - Click on Cameras→ PostRenderCamera and check “isLeft” on the SUVSTARPostRender component
 - Build to a Samsung Galaxy S9 phone (this will be the left eye)
@@ -35,7 +35,7 @@ TwoSamsung Galaxy S9 phones running Android 9.0 (Pie) (the code is hard-coded to
 - Use the control panel sticking out at the tops of the phones to adjust render depth and camera feed positioning (make sure the changes are symmetrical across both phones)
 - If AR image anchors were uploaded to the build (see SUVSTARImageController.cs), simply bring into view the corresponding real life images in order to track them
 
-# Implementation
+## Implementation
 The basic principles are outlined here:
 - Use ARCore to get a lower latency camera feed in the background; and display virtual objects (ARCore Device prefab)
 - Send the entire ARCore camera feed (virtual objects and video background) to a Unity RenderTexture (First Person Camera has a Target Texture of size 2960x1440 -- the resolution of the S9)
@@ -46,7 +46,7 @@ The basic principles are outlined here:
 - Shift IPD depending on whether building for left or right phone (see bool IsLeft in SUVSTARPostRender.cs)
 - Use control panel to help adjust depth for different users, and to center the camera feed for each lens
 
-# Scripts:
+## Scripts:
 ```SUVSTARPostRender.cs```
 Modeled after the CardboardPostRender.cs from the Unity Stereo SDK provided by the EE267 teaching team, which is based off the old Cardboard SDK. Placed on an orthographic camera to take the RenderTexture of the view from the eye and display the barrel distorted version.
 
@@ -59,5 +59,5 @@ Modeled after the AugmentedImageController.cs in the Google ARCore Augmented Ima
 ```RaycastUI.cs```
 Script attached to the First Person Camera (the main AR camera) to trigger the expansion of the HUD when gazed at.
 
-# IF YOU ARE TRYING TO RUN MONOSCOPIC PASS-THROUGH AR ON A SINGLE PHONE:
+### IF YOU ARE TRYING TO RUN MONOSCOPIC PASS-THROUGH AR ON A SINGLE PHONE:
 In SUVSTARPostRender, check the bool box that says "TwoEyesSingleDevice" to set it to true. This will increase the eyeCount to 2, set the right eye camera to active, and deactivate the canvas UI. 
