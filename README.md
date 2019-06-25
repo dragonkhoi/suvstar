@@ -7,7 +7,9 @@ Last updated: June 2019 by Khoi Le and Kyle Qian
 
 Repo: https://github.com/dragonkhoi/suvstar/
 
-Video: https://www.youtube.com/watch?v=aOOyccH9_Rw
+Video: https://youtu.be/PGv5y24Hbx8
+
+Report: https://github.com/dragonkhoi/suvstar/blob/master/report_le_qian.pdf
 
 ![SUVSTAR Headset](https://github.com/dragonkhoi/suvstar/blob/master/20190605_162409.jpg)
 
